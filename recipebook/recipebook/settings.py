@@ -36,6 +36,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'ledger',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
