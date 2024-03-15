@@ -1,7 +1,9 @@
-import datetime
-from time import timezone
 from django.db import models
 from django.urls import reverse
+
+from time import timezone
+import datetime
+
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=100)
@@ -18,9 +20,6 @@ class Recipe(models.Model):
     author = models.CharField(max_length=100)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
-    # add Author field
-    # Created On field that is automatically added upon creation of the instance
-    # Update On field that is automatically updated
     
     def __str__(self):
         return '{}'.format(self.name)
@@ -47,4 +46,3 @@ class RecipeIngredient(models.Model):
     
     def __str__(self): 
         return '{} - {}'.format(self.recipe.name, self.ingredient.name)
-
