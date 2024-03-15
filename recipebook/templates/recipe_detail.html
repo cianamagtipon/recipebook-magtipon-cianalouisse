@@ -2,15 +2,43 @@
 <html>
     <head>
         <title>Recipe Book</title>
+        <h1>Recipe Book</h1>
     </head>
     <body>
-        <h1>Recipe Book</h1>
-        <h2>{{ recipe.name }}</h2>
-        <ul>
-            {% for ingredient in recipe.ingredients.all %}
-            <li>{{ ingredient.ingredient.name }} - {{ ingredient.quantity }}</li>
-            {% endfor %}
-        </ul>
-        <a href="{{ recipe.get_root_url }}">Recipe Book</a>
+        {% if request.user.is_authenticated %}
+            <h2>Recipe Details</h2>
+            Hello {{ request.user.username }}! Welcome to the Recipe Details page!
+            <h3>{{ recipe.name }}</h3>
+            <p>
+                Recipe Author: {{ recipe.author }}
+                <br>Created on: {{ recipe.created_on }}</br>
+                Updated on: {{ recipe.updated_on }}
+            </p>
+
+            <ul>
+                {% for ingredient in recipe.ingredients.all %}
+                <li>{{ ingredient.ingredient.name }} - {{ ingredient.quantity }}</li>
+                {% endfor %}
+            </ul>
+            <a href="{{ recipe.get_root_url }}">Recipe List</a>
+            <form action="{% url 'logout' %}" method="POST">
+                {% csrf_token %}
+                <p>
+                    <button type="submit">LOG OUT</button>
+                </p>
+            </form>
+        {% else %}
+            <h2>Recipe Details</h2>
+            <p>
+                Hello! Welcome to the Recipe Details page.
+            </p>
+            <p>
+                Sadly, you do not have permission to view its content.
+                <br>In order to proceed, you must first <a href="{% url 'login' %}">LOG IN</a>.</br>
+            </p>
+            <p>
+                Return to <a href="{{ recipe.get_root_url }}">Recipe List</a>.
+            </p>
+        {% endif %}
     </body>
 </html>

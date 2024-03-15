@@ -2,15 +2,40 @@
 <html>
     <head>
         <title>Recipe Book</title>
+        <h1>Recipe Book</h1>
     </head>
     <body>
-        <h1>Recipe Book</h1>
-        <ul>
-            {% for recipe in object_list %}
-            <li>
-                <a href="{{ recipe.get_absolute_url }}">{{ recipe.name }}</a>
-            </li>
-            {% endfor %}
-        </ul>
+        {% if request.user.is_authenticated %}
+            <h2>Recipe List</h2>
+            Hello {{ request.user.username }}! Welcome to the Recipe List page!
+            <h3>Here are the list of recipes:</h3>
+            <ul>
+                {% for recipe in object_list %}
+                <li>
+                    <a href="{{ recipe.get_absolute_url }}">{{ recipe.name }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+            <form action="{% url 'logout' %}" method="POST">
+                {% csrf_token %}
+                <p>
+                    <button type="submit">LOG OUT</button>
+                </p>
+            </form>
+        {% else %}
+            <h2>Recipe List</h2>
+            Hello! Welcome to the Recipe List page!
+            <h3>Here are the list of recipes:</h3>
+            <ul>
+                {% for recipe in object_list %}
+                <li>
+                    <a href="{{ recipe.get_absolute_url }}">{{ recipe.name }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+            <p>
+                <a href="{% url 'login' %}">LOG IN</a>
+            </p>
+        {% endif %}
     </body>
 </html>
